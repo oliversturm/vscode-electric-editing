@@ -8,19 +8,27 @@
     "vscode": "^1.17.0"
   },
   "categories": ["Other"],
-  "activationEvents": ["onCommand:electricEditing.electricBackspace"],
+  "activationEvents": [
+    "onCommand:electricEditing.electricBackspace",
+    "onCommand:electricEditing.electricDelete"
+  ],
   "main": "./extension",
   "contributes": {
     "commands": [
       {
         "command": "electricEditing.electricBackspace",
         "title": "Electric Backspace"
+      },
+      {
+        "command": "electricEditing.electricDelete",
+        "title": "Electric Delete"
       }
     ]
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test"
+    "test": "node ./node_modules/vscode/bin/test",
+    "novscodetest": "mocha --recursive --watch modules"
   },
   "devDependencies": {
     "typescript": "^2.5.2",
