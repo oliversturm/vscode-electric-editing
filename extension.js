@@ -5,6 +5,19 @@ const {
   findFirstWhitespaceRight
 } = require('./modules/electricRemoval');
 
+let eeConfig = {
+  backspace: true,
+  delete: true
+};
+
+const readEeConfig = () => {
+  const config = vscode.workspace.getConfiguration('electricEditing');
+  eeConfig = {
+    backspace: config.get('electricBackspace', true),
+    delete: config.get('electricDelete', true)
+  };
+};
+
 const backspaceFallback = () => {
   // This fallback results in a warning on the console:
   // https://github.com/Microsoft/vscode/blob/a47be8c8c116d79070c015b93609e44f8697b654/src/vs/workbench/api/node/extHost.api.impl.ts#L172
@@ -24,9 +37,12 @@ const nonEmptySelectionExists = selections => selections.find(s => !s.isEmpty);
 const equalPosition = (pos1, pos2) =>
   pos1.line === pos2.line && pos1.character === pos2.character;
 
-const electricRemoval = (getDeleteRangeStart, fallback) => (editor, edit) => {
+const electricRemoval = (getDeleteRangeStart, fallback, optionName) => (
+  editor,
+  edit
+) => {
   const { selections, document } = editor;
-  if (nonEmptySelectionExists(selections)) {
+  if (!eeConfig[optionName] || nonEmptySelectionExists(selections)) {
     fallback();
   } else {
     const cpos = selections[0].active;
@@ -38,16 +54,20 @@ const electricRemoval = (getDeleteRangeStart, fallback) => (editor, edit) => {
 };
 
 function activate(context) {
+  readEeConfig();
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration(readEeConfig)
+  );
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
       'electricEditing.electricBackspace',
-      electricRemoval(findFirstWhitespaceLeft, backspaceFallback)
+      electricRemoval(findFirstWhitespaceLeft, backspaceFallback, 'backspace')
     )
   );
   context.subscriptions.push(
     vscode.commands.registerTextEditorCommand(
       'electricEditing.electricDelete',
-      electricRemoval(findFirstWhitespaceRight, deleteFallback)
+      electricRemoval(findFirstWhitespaceRight, deleteFallback, 'delete')
     )
   );
 }
