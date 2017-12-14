@@ -14,7 +14,8 @@ const readEeConfig = () => {
   const config = vscode.workspace.getConfiguration('electricEditing');
   eeConfig = {
     backspace: config.get('electricBackspace', true),
-    delete: config.get('electricDelete', true)
+    delete: config.get('electricDelete', true),
+    bracket: config.get('electricBracket')
   };
 };
 
@@ -53,6 +54,27 @@ const electricRemoval = (getDeleteRangeStart, fallback, optionName) => (
   }
 };
 
+const getPair = (pairList, triggerKey) =>
+  pairList.find(
+    e =>
+      (typeof e.triggerKey === 'string' && e.triggerKey === triggerKey) ||
+      (Array.isArray(e.triggerKey) && e.triggerKey.includes(triggerKey))
+  ) || { start: triggerKey, end: triggerKey };
+
+const electricBracket = (editor, edit, params) => {
+  const { selections, document } = editor;
+  const { triggerKey } = params;
+
+  if (!triggerKey) {
+    console.error('Electric Bracket called without triggerKey parameter.');
+    return;
+  }
+
+  const pair = getPair(eeConfig.bracket, triggerKey);
+  for (const s of selections)
+    edit.replace(s, `${pair.start}${document.getText(s)}${pair.end}`);
+};
+
 function activate(context) {
   readEeConfig();
   context.subscriptions.push(
@@ -68,6 +90,12 @@ function activate(context) {
     vscode.commands.registerTextEditorCommand(
       'electricEditing.electricDelete',
       electricRemoval(findFirstWhitespaceRight, deleteFallback, 'delete')
+    )
+  );
+  context.subscriptions.push(
+    vscode.commands.registerTextEditorCommand(
+      'electricEditing.electricBracket',
+      electricBracket
     )
   );
 }

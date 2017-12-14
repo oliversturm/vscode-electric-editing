@@ -10,7 +10,8 @@
   "categories": ["Other"],
   "activationEvents": [
     "onCommand:electricEditing.electricBackspace",
-    "onCommand:electricEditing.electricDelete"
+    "onCommand:electricEditing.electricDelete",
+    "onCommand:electricEditing.electricBracket"
   ],
   "main": "./extension",
   "contributes": {
@@ -22,6 +23,10 @@
       {
         "command": "electricEditing.electricDelete",
         "title": "Electric Delete"
+      },
+      {
+        "command": "electricEditing.electricBracket",
+        "title": "Electric Bracket"
       }
     ],
     "configuration": {
@@ -37,6 +42,32 @@
           "type": "boolean",
           "default": true,
           "description": "Toggle electric delete"
+        },
+        "electricEditing.electricBracket": {
+          "type": "array",
+          "description": "List of known bracket pairs and trigger keys",
+          "default": [
+            {
+              "triggerKey": ["(", ")"],
+              "start": "(",
+              "end": ")"
+            },
+            {
+              "triggerKey": ["{", "}"],
+              "start": "{",
+              "end": "}"
+            },
+            {
+              "triggerKey": ["[", "]"],
+              "start": "[",
+              "end": "]"
+            },
+            {
+              "triggerKey": ["<", ">"],
+              "start": "<",
+              "end": ">"
+            }
+          ]
         }
       }
     }
