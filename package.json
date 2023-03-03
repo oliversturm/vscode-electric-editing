@@ -5,14 +5,12 @@
   "version": "0.0.3",
   "publisher": "oliversturm",
   "engines": {
-    "vscode": "^1.17.0"
+    "vscode": "^1.76.0"
   },
-  "categories": ["Other"],
-  "activationEvents": [
-    "onCommand:electricEditing.electricBackspace",
-    "onCommand:electricEditing.electricDelete",
-    "onCommand:electricEditing.electricBracket"
+  "categories": [
+    "Other"
   ],
+  "activationEvents": [],
   "main": "./extension",
   "contributes": {
     "commands": [
@@ -48,22 +46,34 @@
           "description": "List of known bracket pairs and trigger keys",
           "default": [
             {
-              "triggerKey": ["(", ")"],
+              "triggerKey": [
+                "(",
+                ")"
+              ],
               "start": "(",
               "end": ")"
             },
             {
-              "triggerKey": ["{", "}"],
+              "triggerKey": [
+                "{",
+                "}"
+              ],
               "start": "{",
               "end": "}"
             },
             {
-              "triggerKey": ["[", "]"],
+              "triggerKey": [
+                "[",
+                "]"
+              ],
               "start": "[",
               "end": "]"
             },
             {
-              "triggerKey": ["<", ">"],
+              "triggerKey": [
+                "<",
+                ">"
+              ],
               "start": "<",
               "end": ">"
             }
@@ -73,16 +83,34 @@
     }
   },
   "scripts": {
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test",
-    "novscodetest": "mocha --recursive --watch modules"
+    "lint": "eslint .",
+    "test": "node ./test/runTest.js",
+    "package": "vsce package --pre-release",
+    "publish": "vsce publish --pre-release"
   },
   "devDependencies": {
-    "typescript": "^2.5.2",
-    "vscode": "^1.1.5",
-    "mocha": "^3.5.0",
-    "eslint": "^4.6.1",
-    "@types/node": "^7.0.0",
-    "@types/mocha": "^2.2.42"
+    "@types/vscode": "^1.76.0",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "eslint": "^8.34.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5",
+    "@vscode/test-electron": "^2.2.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oliversturm/vscode-electric-editing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oliversturm/vscode-electric-editing/issues"
+  },
+  "homepage": "https://github.com/oliversturm/vscode-electric-editing/blob/master/README.md",
+  "license": "MIT",
+  "author": "Oliver Sturm <oliver@oliversturm.com>",
+  "galleryBanner": {
+    "color": "#ff7f0f",
+    "theme": "dark"
   }
 }
