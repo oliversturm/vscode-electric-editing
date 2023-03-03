@@ -2,7 +2,7 @@
   "name": "electric-editing",
   "displayName": "Electric Editing",
   "description": "Editing convenience a la Emacs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "oliversturm",
   "engines": {
     "vscode": "^1.76.0"
@@ -85,8 +85,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "node ./test/runTest.js",
-    "package": "vsce package --pre-release",
-    "publish": "vsce publish --pre-release"
+    "package": "vsce package",
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/vscode": "^1.76.0",
