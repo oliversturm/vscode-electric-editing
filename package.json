@@ -2,7 +2,7 @@
   "name": "electric-editing",
   "displayName": "Electric Editing",
   "description": "Editing convenience a la Emacs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "oliversturm",
   "engines": {
     "vscode": "^1.76.0"
